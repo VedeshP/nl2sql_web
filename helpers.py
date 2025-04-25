@@ -28,14 +28,18 @@ def clean_values(values):
     values = [f"'{val.strip()}'" if not val.strip().isdigit() else val.strip() for val in values]
     return ", ".join(values)
 
-# Function to convert natural language to SQL
+
 def nl_to_sql(nl_query):
     nl_query = normalize_command(nl_query.lower().strip())
 
     # SELECT Queries
     select_pattern = re.match(r"select (.+) from (\w+)(?: where (.+))?", nl_query)
+    print(f"select_pattern: {select_pattern} ")
     if select_pattern:
         columns, table, condition = select_pattern.groups()
+        print(" " + " " + table + " " + columns)
+        if condition:
+            print(condition)
         sql_query = f"SELECT {columns} FROM {table}"
         if condition:
             sql_query += f" WHERE {condition}"
